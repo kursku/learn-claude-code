@@ -21,19 +21,23 @@ O usuário pode ter digitado:
 
 ## Lógica de Roteamento
 
+As sub-skills estão na mesma pasta. Use a ferramenta **Read** para carregar cada arquivo e siga suas instruções diretamente.
+
 ### Sem argumento → diagnóstico completo
-Invoque `learn-diagnose`. Passe o nível detectado para `learn-exercise`.
+Leia e execute `learn-diagnose.md`. Passe o nível detectado para `learn-exercise.md`.
 
 ### `quiz` → modo quiz standalone
-Invoque `learn-diagnose` (modo silencioso — apenas inspeciona ambiente, não faz perguntas).
-Com o nível detectado, invoque `learn-quiz` no modo standalone (5 perguntas).
+Leia `learn-diagnose.md` (modo silencioso — apenas inspeciona ambiente, não faz perguntas).
+Com o nível detectado, leia e execute `learn-quiz.md` no modo standalone (5 perguntas).
 
 ### `path` → roadmap
-Invoque `learn-diagnose` (modo silencioso).
-Com o nível detectado, invoque `learn-path`.
+Leia `learn-diagnose.md` (modo silencioso).
+Com o nível detectado, leia e execute `learn-path.md`.
 
 ### Qualquer outro tópico (`hooks`, `agents`, `claude-md`, `skills`, `commits`) → exercício direto
-Invoque `learn-exercise` diretamente com o tópico passado. Pule o diagnóstico.
+Leia e execute `learn-exercise.md` diretamente com o tópico passado. Pule o diagnóstico.
+
+> **Nota:** os caminhos dos arquivos ficam em `<base_dir>/learn-diagnose.md`, `<base_dir>/learn-exercise.md` etc., onde `<base_dir>` é o diretório base desta skill (informado no contexto de execução).
 
 ## Mensagem de Boas-vindas
 
