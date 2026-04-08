@@ -44,23 +44,33 @@ Este pack reúne skills focadas 100% em **aprender e usar o Claude Code** com ef
 
 ## 📦 Como instalar
 
-### Passo 1 — Clone o repositório
+### Recomendado — via Skillshare
+
+[Skillshare](https://github.com/kursku/skills/tree/master/tooling/skillshare) é o gerenciador de skills para Claude Code. Instala, atualiza e sincroniza skills com um comando.
 
 ```bash
-git clone https://github.com/kursku/learn-claude-code.git
+# Instalar o skillshare (uma vez só)
+skillshare install kursku/skills -s skillshare
+skillshare sync
+
+# Instalar todas as skills deste pack
+skillshare install kursku/learn-claude-code --all --track
+skillshare sync
 ```
 
-### Passo 2 — Copie as skills para o Claude Code
+> 💡 `--track` permite atualizar com `skillshare install && skillshare sync` quando houver novidades.
+
+### Manual — via git clone
 
 ```bash
-# Copiar a skill /learn
-cp -r learn-claude-code/01-aprendizado/learn ~/.claude/skills/
+# 1. Clone o repositório
+git clone https://github.com/kursku/learn-claude-code.git
 
-# Ou copiar todas de uma vez
+# 2. Copie as skills
 cp -r learn-claude-code/01-aprendizado/. ~/.claude/skills/
 ```
 
-### Passo 3 — Use no terminal
+### Passo final — use no terminal
 
 ```bash
 claude  # abra o Claude Code
