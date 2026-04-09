@@ -24,7 +24,8 @@ O usuário pode ter digitado:
 As sub-skills estão na mesma pasta. Use a ferramenta **Read** para carregar cada arquivo e siga suas instruções diretamente.
 
 ### Sem argumento → diagnóstico completo
-Leia e execute `learn-diagnose.md`. Passe o nível detectado para `learn-exercise.md`.
+Leia e execute `learn-diagnose.md` (modo completo — faz perguntas ao usuário).
+Com o nível detectado, leia e execute `learn-exercise.md`.
 
 ### `quiz` → modo quiz standalone
 Leia `learn-diagnose.md` (modo silencioso — apenas inspeciona ambiente, não faz perguntas).

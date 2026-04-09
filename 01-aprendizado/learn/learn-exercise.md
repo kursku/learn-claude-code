@@ -61,7 +61,7 @@ Invoque a skill `commit` se disponível, ou guie manualmente:
 
 ---
 
-### Se level = Intermediário (ou topic = hooks)
+### Se level = Intermediário (ou topic = hooks para Iniciante/Intermediário)
 
 ```
 Você já tem o básico. Hora de desbloquear automações! Escolha:
@@ -99,6 +99,35 @@ Invoque a skill `write-a-skill` se disponível, ou guie:
 **Se escolher (c) — Project CLAUDE.md:**
 1. Crie `.claude/CLAUDE.md` no diretório atual
 2. Adicione regras específicas do projeto (linguagem, padrões de commit, arquivos a ignorar)
+
+---
+
+### Intermediário × agents (Intermediário + topic = agents)
+
+```
+Você já usa o Claude. Hora de multiplicar sua capacidade! Escolha:
+
+a) Entender subagentes — o que são e quando usar
+b) Sua primeira tarefa paralela — pesquisa simultânea com 2 agentes
+c) Padrão de orquestração — como estruturar um agente pai e filhos
+```
+
+**Se escolher (a) — O que são subagentes:**
+1. Explique: "Subagentes são instâncias separadas do Claude, cada uma com contexto isolado. Você as dispara com a ferramenta `Agent` (Task) e cada uma executa uma subtarefa independente."
+2. Mostre a diferença entre rodar tudo em uma sessão vs. delegar para agentes:
+   - Uma sessão: contexto cresce, risco de confusão entre tarefas
+   - Subagentes: cada agente foca apenas no que precisa saber
+3. Casos de uso ideais: pesquisa paralela, revisão de código, geração de testes
+
+**Se escolher (b) — Primeira tarefa paralela:**
+1. Proponha um exemplo concreto: "Pesquise dois frameworks para mim ao mesmo tempo"
+2. Mostre como estruturar o prompt para cada agente com contexto mínimo
+3. Explique como o agente pai recebe os resultados e os consolida
+
+**Se escolher (c) — Padrão de orquestração:**
+1. Explique o padrão: agente orquestrador recebe a tarefa → decompõe em subtarefas → dispatcha agentes especializados → consolida resultados
+2. Mostre um exemplo de decomposição real (ex: "Analise este repositório" → agente de arquitetura + agente de segurança + agente de testes)
+3. Ofereça criar uma skill para este workflow
 
 ---
 
