@@ -34,8 +34,10 @@ Com o nível detectado, leia e execute `learn-quiz.md` no modo standalone (5 per
 Leia `learn-diagnose.md` (modo silencioso).
 Com o nível detectado, leia e execute `learn-path.md`.
 
-### Qualquer outro tópico (`hooks`, `agents`, `claude-md`, `skills`, `commits`) → exercício direto
-Leia e execute `learn-exercise.md` diretamente com o tópico passado. Pule o diagnóstico.
+### Qualquer outro tópico (`hooks`, `agents`, `claude-md`, `skills`, `commits`) → exercício com nível
+Leia `learn-diagnose.md` (modo silencioso — apenas inspeciona ambiente, não faz perguntas).
+Com o nível detectado, leia e execute `learn-exercise.md` passando o tópico e o nível.
+Isso garante que o exercício seja calibrado ao nível do usuário (ex: Avançado + hooks → prompt hooks, não notificação básica).
 
 > **Nota:** os caminhos dos arquivos ficam em `<base_dir>/learn-diagnose.md`, `<base_dir>/learn-exercise.md` etc., onde `<base_dir>` é o diretório base desta skill (informado no contexto de execução).
 

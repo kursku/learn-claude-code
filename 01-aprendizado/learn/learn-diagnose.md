@@ -48,9 +48,11 @@ Score the user based on findings:
 | Project CLAUDE.md exists | +1 |
 
 **Classification:**
-- 0–2 points → **Iniciante**
-- 3–5 points → **Intermediário**
-- 6–9 points → **Avançado**
+- 0–3 points → **Iniciante**
+- 4–6 points → **Intermediário**
+- 7–9 points → **Avançado**
+
+> **Silent mode:** If invoked in silent mode (quiz, path, or topic routing), stop here. Return the detected level to the calling skill — do NOT proceed to Steps 3 or 4.
 
 ## Step 3 — Ask 1 Targeted Question
 
@@ -73,4 +75,4 @@ Nível detectado: [Iniciante / Intermediário / Avançado]
 Por quê: [1-2 sentences explaining the signals found]
 ```
 
-Then immediately invoke `learn-exercise` with the detected level and any topic argument passed to this skill.
+Then return the level to the calling skill (SKILL.md router), which will load the appropriate next file.

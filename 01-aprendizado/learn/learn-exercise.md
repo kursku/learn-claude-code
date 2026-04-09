@@ -7,6 +7,20 @@ description: Delivers a personalized Claude Code exercise based on user level (I
 
 You receive a level (Iniciante, Intermediário, or Avançado) and optionally a topic. Deliver the right exercise.
 
+## Roteamento Nível × Tópico
+
+Se um tópico foi passado junto com o nível, use esta tabela para escolher a seção correta:
+
+| Tópico | Iniciante ou Intermediário | Avançado |
+|--------|---------------------------|----------|
+| `hooks` | → Seção Intermediário | → Seção Frontier: Hooks Avançados |
+| `agents` | → Seção Intermediário (opção skill) | → Seção Avançado (multi-agent) |
+| `skills` | → Seção Intermediário (opção skill) | → Seção Frontier: Publicar skill |
+| `commits` | → Seção Iniciante (commit guiado) | → Seção Frontier: Commits Avançados |
+| `claude-md` | → Seção Iniciante | → Seção Avançado (audit CLAUDE.md) |
+
+Se nenhum tópico foi passado, use o nível para escolher o Quick Win Menu padrão abaixo.
+
 ## Quick Win Menu
 
 Present exactly 3 options for the detected level. Let the user pick one.
@@ -115,8 +129,119 @@ c) Auditar seus hooks — identificar gaps e melhorias
 
 **Se escolher (c) — Audit hooks:**
 1. Leia `~/.claude/settings.json`
-2. Liste hooks existentes
-3. Sugira hooks ausentes comuns: PreCompact (salvar estado), PostToolUse (auto-format), Notification (alertas)
+2. Liste hooks existentes por evento
+3. Avalie:
+   - Todos os hooks são do tipo `command`? Sugira evoluir para `prompt` ou `agent` nos casos adequados
+   - Há duplicatas (mesmo matcher, mesmo comando)?
+   - Eventos descobertos sem hook: `PreToolUse Bash` (segurança), `PreCompact` (salvar contexto)
+4. Sugira melhorias com JSON concreto e aplique com aprovação do usuário
+
+---
+
+### Frontier — Hooks Avançados (Avançado + topic = hooks)
+
+```
+Você já domina hooks command. Hora de evoluir para o próximo nível! Escolha:
+
+a) Hook tipo `prompt` no PreToolUse — Claude revisa o próprio Bash antes de executar
+b) Hook tipo `prompt` no PreCompact — Claude salva decisões críticas antes de compactar
+c) Auditar hooks existentes — detectar duplicatas, gaps e oportunidades de upgrade para prompt/agent
+```
+
+**Se escolher (a) — PreToolUse prompt:**
+1. Explique: "Um hook tipo `prompt` injeta instrução no contexto do Claude antes da ação. É diferente de `command` — não roda um processo, faz o Claude raciocinar."
+2. Mostre o JSON:
+   ```json
+   {
+     "PreToolUse": [{
+       "matcher": "Bash",
+       "hooks": [{
+         "type": "prompt",
+         "prompt": "Antes de executar este comando Bash, verifique: (1) é reversível? (2) pode afetar dados fora do projeto atual? (3) risco de deleção em massa? Se sim para qualquer um, explique o risco e peça confirmação explícita do usuário."
+       }]
+     }]
+   }
+   ```
+3. Leia `~/.claude/settings.json`, faça merge do hook, escreva o arquivo
+4. Explique o resultado: "Agora o Claude raciocina sobre segurança antes de qualquer Bash — sem processo externo, sem latência de shell."
+
+**Se escolher (b) — PreCompact prompt:**
+1. Explique: "Quando o contexto está cheio, o Claude compacta a conversa. Um hook `prompt` aqui garante que informações críticas sejam preservadas."
+2. Mostre o JSON:
+   ```json
+   {
+     "PreCompact": [{
+       "matcher": "",
+       "hooks": [{
+         "type": "prompt",
+         "prompt": "Antes de compactar, salve explicitamente: (1) decisões de arquitetura tomadas nesta sessão, (2) arquivos modificados e por quê, (3) próximos passos pendentes. Inclua isso no resumo de compactação."
+       }]
+     }]
+   }
+   ```
+3. Leia `~/.claude/settings.json`, faça merge, escreva o arquivo
+
+**Se escolher (c) — Audit completo:**
+1. Leia `~/.claude/settings.json`
+2. Para cada hook, identifique: tipo atual, evento, se há duplicata
+3. Sugira upgrades onde `prompt` faria mais sentido que `command`
+4. Mostre diff de mudanças e aplique com aprovação
+
+---
+
+### Frontier — Commits Avançados (Avançado + topic = commits)
+
+```
+Você já faz commits. Hora de profissionalizar o fluxo! Escolha:
+
+a) Criar um hook PreToolUse para validar mensagens de commit antes de executar
+b) Configurar git aliases + commitlint para padronizar o time
+c) Auditar seu histórico de commits — identificar inconsistências e corrigi-las
+```
+
+**Se escolher (a) — Hook de validação:**
+1. Explique: "Um hook `prompt` no `PreToolUse` para o tool `Bash` pode interceptar comandos `git commit` e validar o formato antes de executar."
+2. Mostre o JSON:
+   ```json
+   {
+     "PreToolUse": [{
+       "matcher": "Bash",
+       "hooks": [{
+         "type": "prompt",
+         "prompt": "Se o comando contém 'git commit', verifique se a mensagem segue o formato Conventional Commits (type(scope): description). Se não seguir, avise o usuário e sugira a mensagem corrigida antes de prosseguir."
+       }]
+     }]
+   }
+   ```
+3. Aplique com aprovação e mostre como testar
+
+**Se escolher (b) — Aliases + commitlint:**
+1. Mostre aliases úteis para `.gitconfig`
+2. Guie instalação do commitlint para o projeto atual
+3. Crie um `.commitlintrc.json` com as regras do projeto
+
+**Se escolher (c) — Audit de histórico:**
+1. Rode `git log --oneline -20` para ver os últimos commits
+2. Identifique commits que não seguem Conventional Commits
+3. Explique como usar `git rebase -i` para reorganizar se necessário (com aviso de risco)
+
+---
+
+### Frontier — Publicar Skill (Avançado + topic = skills)
+
+```
+Você já usa skills. Hora de criar e publicar uma sua! Escolha:
+
+a) Criar uma skill para um processo que você repete — e publicar no GitHub
+b) Evoluir uma skill existente — adicionar sub-skills ou lógica de roteamento
+c) Criar um skill pack — agrupe skills relacionadas em um repositório
+```
+
+**Se escolher (a) — Nova skill pública:**
+1. Pergunte: "Qual processo você repete que poderia virar uma skill para a comunidade?"
+2. Crie a skill seguindo o padrão: frontmatter YAML + instruções diretas
+3. Salve em `~/.claude/skills/` e teste com `/nome-da-skill`
+4. Guie para publicar: crie repo GitHub, estruture como `01-categoria/nome-skill/SKILL.md`
 
 ---
 
@@ -133,7 +258,5 @@ Exercício concluído! O que quer fazer agora?
 4. Terminar por aqui
 ```
 
-Se escolher (2), invoque `learn-quiz` no modo reinforcement com o tópico praticado.
-Se escolher (1), invoque `learn-path` com o nível detectado.
-
-Report: DONE or BLOCKED with brief summary.
+Se escolher (2), leia e execute `learn-quiz.md` no modo reinforcement com o tópico praticado.
+Se escolher (1), leia e execute `learn-path.md` com o nível detectado.

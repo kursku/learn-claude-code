@@ -11,7 +11,7 @@ You are running the Claude Code quiz. Follow these instructions exactly.
 
 You will be invoked in one of two modes:
 
-- **Standalone**: Called from `learn.md` after silent diagnosis → 5 questions calibrated to detected level
+- **Standalone**: Called from `SKILL.md` after silent diagnosis → 5 questions calibrated to detected level
 - **Reinforcement**: Called from `learn-exercise.md` after an exercise → 3 questions about the concept just practiced
 
 The invoking skill will pass the mode and relevant context (level + topic if reinforcement).
@@ -157,6 +157,12 @@ Based on the topic practiced, select 3 relevant questions:
 
 ### After agent/multi-agent exercise
 - Use Avançado Q1, Q2, Q5
+
+### After prompt hooks exercise (frontier)
+- Use Intermediário Q1, Q2, then ask: **"Qual é a diferença entre um hook tipo `command` e tipo `prompt`?"** (Answer: `command` executa um processo externo; `prompt` injeta instrução no contexto do Claude para ele raciocinar antes de agir)
+
+### After commits avançado exercise (frontier)
+- Use Iniciante Q2, then ask: **"Em qual evento de hook você interceptaria um `git commit` para validar a mensagem?"** (Answer: `PreToolUse` com matcher `Bash`), then: **"Por que usar `type: prompt` em vez de `type: command` para validar commits?"** (Answer: `prompt` não precisa de processo externo e entende contexto — pode sugerir correção; `command` só bloqueia ou passa)
 
 ---
 
