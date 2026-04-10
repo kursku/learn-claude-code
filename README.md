@@ -19,6 +19,8 @@
 <p align="center">
   <a href="#-como-instalar">📦 Como instalar</a> •
   <a href="#-categorias">📂 Categorias</a> •
+  <a href="#-learn-comandos">/learn</a> •
+  <a href="#-roadmap">🗺️ Roadmap</a> •
   <a href="#-faq">❓ FAQ</a> •
   <a href="#-contribuindo">🤝 Contribuindo</a>
 </p>
@@ -129,20 +131,69 @@ Multi-agent, subagentes paralelos e orquestração
 
 ---
 
-## ⭐ Destaque: /learn
+## ⭐ /learn — Comandos
 
 A skill principal deste pack. Use `/learn` para descobrir seu nível e receber um plano personalizado:
 
-| Comando | O que faz |
-|---------|-----------|
-| `/learn` | Diagnóstico completo + exercício personalizado |
-| `/learn quiz` | Teste seus conhecimentos (5 perguntas) |
-| `/learn path` | Veja seu roadmap completo |
-| `/learn hooks` | Aprenda hooks na prática |
-| `/learn agents` | Aprenda multi-agentes |
-| `/learn claude-md` | Crie seu CLAUDE.md |
-| `/learn skills` | Crie sua primeira skill |
-| `/learn commits` | Fluxo de commits profissional |
+| Comando | O que faz | Nível sugerido |
+|---------|-----------|---------------|
+| `/learn` | Diagnóstico completo + exercício personalizado | Todos |
+| `/learn quiz` | Teste seus conhecimentos (5 perguntas calibradas) | Todos |
+| `/learn path` | Veja seu roadmap com progresso persistente | Todos |
+| `/learn claude-md` | Crie ou melhore seu CLAUDE.md | Iniciante+ |
+| `/learn commits` | Fluxo de commits com Conventional Commits | Iniciante+ |
+| `/learn hooks` | Configure hooks de automação | Intermediário+ |
+| `/learn skills` | Crie sua primeira skill personalizada | Intermediário+ |
+| `/learn agents` | Aprenda multi-agentes e subagentes | Intermediário+ |
+| `/learn context` | Gerencie contexto, tokens e peak hours | Avançado |
+
+### Como funciona o diagnóstico
+
+O `/learn` inspeciona seu ambiente silenciosamente e classifica seu nível:
+
+| Check | Pontos |
+|-------|--------|
+| `~/.claude/CLAUDE.md` existe | +2 |
+| Hooks configurados em `settings.json` | +3 |
+| Skills instaladas em `~/.claude/skills/` | +3 |
+| `.claude/CLAUDE.md` de projeto existe | +1 |
+
+- **0–3 pts → Iniciante** — exercícios de CLAUDE.md e primeiros commits
+- **4–6 pts → Intermediário** — hooks, skills e automações
+- **7–9 pts → Avançado** — multi-agent, frontier hooks, gestão de contexto
+
+---
+
+## 🗺️ Roadmap
+
+O que já está pronto e o que vem a seguir. Use como referência para contribuir.
+
+### ✅ v1.0 — Fundação
+- [x] Router `/learn` com diagnóstico automático de nível
+- [x] Exercícios calibrados por nível (Iniciante / Intermediário / Avançado)
+- [x] Seções Frontier para usuários avançados (hooks prompt, commits avançados, publicar skills)
+- [x] Quiz com 15 perguntas no nível Apply (cenários reais, não definições)
+- [x] Roadmap personalizado por nível
+- [x] Roteamento Nível × Tópico (ex: Avançado + hooks → prompt hooks, não notificação básica)
+
+### ✅ v1.1 — Qualidade e Contexto
+- [x] Preambles "Como funciona" em cada seção (reduz carga cognitiva)
+- [x] Micro-checks após passos críticos
+- [x] Novo tópico `/learn context` — janelas de 5h, peak hours (10h–16h BRT), estratégias de economia
+- [x] Persistência de progresso via `~/.learn-progress`
+- [x] Links externos corrigidos (removidos repos não verificados)
+- [x] Seção `Intermediário × agents` adicionada
+
+### 🔜 v1.2 — Robustez
+- [ ] Diagnóstico Check B mais robusto no Windows (evitar `node -e` com aspas aninhadas)
+- [ ] Suporte a `/learn worktrees` (Git worktrees paralelos)
+- [ ] Suporte a `/learn mcp` (Model Context Protocol)
+- [ ] Modo `/learn <tópico> --reset` para forçar novo diagnóstico
+
+### 💡 Ideias Futuras
+- [ ] `/learn tokens` — monitore consumo em tempo real via console.anthropic.com
+- [ ] Integração com `skillshare update` para notificar quando há conteúdo novo
+- [ ] Versão EN para comunidade internacional
 
 ---
 
@@ -160,15 +211,19 @@ Sim. Copie quantas quiser para `~/.claude/skills/` — todas ficam disponíveis 
 **As skills funcionam no claude.ai (não no terminal)?**
 Essas skills foram feitas para o **Claude Code** (terminal). Para o claude.ai, veja o [pack-marketing-skills](https://github.com/kursku/pack-marketing-skills).
 
+**O que são peak hours e por que importam?**
+Nos dias úteis entre 10h–16h BRT (1pm–7pm GMT), o Claude consome sua janela de uso de 5 horas mais rápido. Jobs pesados devem ser agendados fora desse período. Use `/learn context` para saber mais.
+
 ---
 
 ## 🤝 Contribuindo
 
-Quer adicionar uma skill?
+Quer adicionar uma skill ou melhorar uma existente?
 
 1. Faça um fork do repositório
 2. Crie sua skill seguindo o [guia](./docs/COMO_CRIAR_SKILL.md)
-3. Abra um Pull Request
+3. Consulte o [TEST-REPORT.md](./docs/TEST-REPORT.md) para entender o padrão de qualidade
+4. Abra um Pull Request
 
 Dúvidas? Abra uma [issue](https://github.com/kursku/learn-claude-code/issues).
 
