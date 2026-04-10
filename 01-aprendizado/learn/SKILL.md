@@ -17,6 +17,7 @@ O usuário pode ter digitado:
 - `/learn claude-md`
 - `/learn skills`
 - `/learn commits`
+- `/learn context`
 - `/learn path`
 
 ## Lógica de Roteamento
@@ -50,7 +51,7 @@ Antes de qualquer ação, mostre:
 /learn — Claude Code Onboarding
 
 [diagnóstico completo]  /learn
-[tópico específico]     /learn hooks | agents | claude-md | skills | commits
+[tópico específico]     /learn hooks | agents | claude-md | skills | commits | context
 [modo quiz]             /learn quiz
 [ver roadmap]           /learn path
 ```
@@ -66,6 +67,7 @@ Então execute o roteamento adequado.
 | `claude-md` | Cria/melhora CLAUDE.md |
 | `skills` | Cria skills personalizadas |
 | `commits` | Fluxo de commit com Conventional Commits |
+| `context` | Gestão de contexto e sessões longas |
 | `quiz` | Testa seu conhecimento |
 | `path` | Ver seu roadmap personalizado |
 
@@ -76,7 +78,7 @@ Se o argumento não for nenhum dos tópicos acima, responda:
 ```
 Tópico "[argumento]" não reconhecido.
 
-Tópicos disponíveis: hooks, agents, claude-md, skills, commits, quiz, path
+Tópicos disponíveis: hooks, agents, claude-md, skills, commits, context, quiz, path
 
 Ou use /learn sem argumento para o diagnóstico completo.
 ```

@@ -7,6 +7,26 @@ description: Mostra um roadmap de aprendizado personalizado baseado no nível do
 
 Apresente o roadmap baseado no nível recebido. Use checkboxes visuais para mostrar o que já foi feito vs o que falta.
 
+## Progresso Persistente
+
+Antes de mostrar o roadmap, leia `~/.learn-progress` (se existir) para verificar quais tópicos o usuário já completou. O arquivo tem o formato:
+
+```
+hooks=done
+claude-md=done
+commits=done
+```
+
+Marque com `[x]` os tópicos que aparecem como `done` no arquivo. Os demais ficam `[ ]`.
+
+Ao final do roadmap, pergunte:
+```
+Quer marcar algum tópico como concluído? Digite o nome (ex: hooks, commits, claude-md) ou "nenhum" para continuar.
+```
+
+Se o usuário nomear um tópico, adicione-o ao arquivo `~/.learn-progress` com `=done`.
+Se o arquivo não existir, crie-o com a entrada nova.
+
 ## Se nível = Iniciante
 
 ```
@@ -24,12 +44,11 @@ PRÓXIMO NÍVEL
 
 AVANÇADO (quando estiver confortável)
 [ ] Agentes paralelos        → /learn agents
-[ ] Git worktrees            → /learn worktrees (em breve)
+[ ] Gestão de contexto       → /learn context
 [ ] Multi-agent workflows    → /learn agents
 
 RECURSOS
-- Guia completo: github.com/FlorianBruniaux/claude-code-ultimate-guide
-- Curso interativo: github.com/delbaoliveira/learn-claude-code
+- Documentação oficial: docs.anthropic.com/claude-code
 - Quiz a qualquer momento: /learn quiz
 ```
 
@@ -49,8 +68,8 @@ DESBLOQUEIE AGORA
 
 PRÓXIMO NÍVEL
 [ ] Agentes paralelos        → /learn agents
-[ ] Subagent-driven dev      → skill superpowers:subagent-driven-development
-[ ] Git worktrees            → /learn worktrees (em breve)
+[ ] Gestão de contexto       → /learn context
+[ ] Commits avançados        → /learn commits
 
 AVANÇADO
 [ ] Multi-agent orchestration
@@ -58,7 +77,7 @@ AVANÇADO
 [ ] Contribuir skills para a comunidade
 
 RECURSOS
-- Nível Senior: github.com/FlorianBruniaux/claude-code-ultimate-guide
+- Documentação oficial: docs.anthropic.com/claude-code
 - Quiz: /learn quiz
 ```
 
@@ -78,16 +97,16 @@ OTIMIZE
 [ ] Hooks tipo agent          → verificações complexas
 
 FRONTIER
-[ ] Criar e publicar plugins  → skill skill-creator
-[ ] Worktrees paralelos       → superpowers:using-git-worktrees
-[ ] Scheduled agents          → skill schedule
+[ ] Gestão avançada de contexto → /learn context
+[ ] Publicar skill pública       → /learn skills
+[ ] Hooks tipo prompt/agent      → /learn hooks
 
 COMPARTILHE
 [ ] Contribuir uma skill para a comunidade
 [ ] Documentar seu workflow em CLAUDE.md público
 
 RECURSOS
-- Power User: github.com/FlorianBruniaux/claude-code-ultimate-guide
+- Documentação oficial: docs.anthropic.com/claude-code
 - Quiz avançado: /learn quiz
 ```
 

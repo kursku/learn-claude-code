@@ -18,6 +18,7 @@ Se um tópico foi passado junto com o nível, use esta tabela para escolher a se
 | `skills` | → Seção Intermediário (opção skill) | → Seção Frontier: Publicar skill |
 | `commits` | → Seção Iniciante (commit guiado) | → Seção Frontier: Commits Avançados |
 | `claude-md` | → Seção Iniciante | → Seção Avançado (audit CLAUDE.md) |
+| `context` | → Seção Frontier: Gestão de Contexto | → Seção Frontier: Gestão de Contexto |
 
 Se nenhum tópico foi passado, use o nível para escolher o Quick Win Menu padrão abaixo.
 
@@ -26,6 +27,8 @@ Se nenhum tópico foi passado, use o nível para escolher o Quick Win Menu padr�
 Present exactly 3 options for the detected level. Let the user pick one.
 
 ### Se level = Iniciante (ou topic = claude-md)
+
+> **Como funciona:** O Claude Code lê arquivos `CLAUDE.md` automaticamente no início de cada sessão. Isso significa que você pode ensinar o Claude a se comportar do jeito que você prefere — sem precisar repetir instruções toda vez. É como uma memória persistente entre sessões.
 
 ```
 Vamos começar com um quick win! Escolha um exercício:
@@ -46,6 +49,7 @@ c) Entender um arquivo do seu projeto — me diga um arquivo e vou explicar tudo
    ```
 3. Escreva o arquivo em `~/.claude/CLAUDE.md` usando a ferramenta Write
 4. Mostre o resultado e explique: "Agora toda vez que você abrir o Claude Code, essas regras são carregadas automaticamente."
+5. ✓ Micro-check: confirme com o usuário — "Essas 3 regras representam bem suas preferências? Podemos ajustar antes de salvar."
 
 **Se escolher (b) — Commit:**
 Invoque a skill `commit` se disponível, ou guie manualmente:
@@ -62,6 +66,8 @@ Invoque a skill `commit` se disponível, ou guie manualmente:
 ---
 
 ### Se level = Intermediário (ou topic = hooks para Iniciante/Intermediário)
+
+> **Como funciona:** Hooks são comandos que o Claude Code executa automaticamente em eventos específicos da sessão — antes de usar uma ferramenta, ao terminar uma resposta, ao compactar contexto. Você configura uma vez em `~/.claude/settings.json` e ele roda em toda sessão sem você precisar lembrar.
 
 ```
 Você já tem o básico. Hora de desbloquear automações! Escolha:
@@ -88,8 +94,9 @@ c) Configurar um CLAUDE.md de projeto — regras específicas para este reposit�
      }
    }
    ```
-3. Leia `~/.claude/settings.json`, faça merge do hook, escreva o arquivo
-4. Confirme: "Hook adicionado. Na próxima vez que o Claude terminar uma resposta, você receberá uma notificação."
+3. ✓ Micro-check: "Faz sentido? O evento `Stop` dispara quando o Claude termina qualquer resposta — exatamente o que queremos."
+4. Leia `~/.claude/settings.json`, faça merge do hook, escreva o arquivo
+5. Confirme: "Hook adicionado. Na próxima vez que o Claude terminar uma resposta, você receberá uma notificação."
 
 **Se escolher (b) — Skill:**
 Invoque a skill `write-a-skill` se disponível, ou guie:
@@ -103,6 +110,8 @@ Invoque a skill `write-a-skill` se disponível, ou guie:
 ---
 
 ### Intermediário × agents (Intermediário + topic = agents)
+
+> **Como funciona:** Subagentes são instâncias isoladas do Claude que você dispara em paralelo via ferramenta `Agent` (Task). Cada um recebe apenas o contexto necessário para sua subtarefa — isso evita que o modelo se confunda com informações de outras tarefas e economiza tokens.
 
 ```
 Você já usa o Claude. Hora de multiplicar sua capacidade! Escolha:
@@ -132,6 +141,8 @@ c) Padrão de orquestração — como estruturar um agente pai e filhos
 ---
 
 ### Se level = Avançado (ou topic = agents)
+
+> **Como funciona:** Usuários avançados já têm CLAUDE.md, hooks e skills configurados. O próximo salto é otimizar o que existe — revisar se as regras são específicas e acionáveis, identificar gaps nos hooks, e escalar com workflows multi-agente para tarefas complexas.
 
 ```
 Você já domina o básico. Vamos otimizar! Escolha:
@@ -274,6 +285,69 @@ c) Criar um skill pack — agrupe skills relacionadas em um repositório
 
 ---
 
+### Frontier — Gestão de Contexto (Avançado + topic = context)
+
+> **Como funciona:** O Claude Code tem um limite de contexto por sessão e limites de uso em janelas de 5 horas. Quando o contexto se aproxima do limite, o Claude compacta automaticamente — e pode perder decisões importantes. Além disso, durante **peak hours** (dias úteis das 5h–11h PT / 10h–16h BRT), você queima essa janela de 5 horas mais rápido do que no restante do dia. Dominar a gestão de contexto significa manter a qualidade do trabalho mesmo em sessões longas e em qualquer horário.
+
+```
+Você já opera em sessões longas. Hora de dominar o contexto! Escolha:
+
+a) Hook PreCompact — salva decisões críticas antes da compactação automática
+b) Estratégia de contexto mínimo — estruturar prompts para desperdiçar menos tokens
+c) Entender peak hours — quando usar Claude com mais cuidado e como monitorar seu uso
+```
+
+**Se escolher (a) — PreCompact hook:**
+1. Explique: "O Claude Code compacta o contexto automaticamente quando está cheio. Um hook `prompt` no evento `PreCompact` garante que informações críticas sejam preservadas no resumo."
+2. Mostre o JSON:
+   ```json
+   {
+     "PreCompact": [{
+       "matcher": "",
+       "hooks": [{
+         "type": "prompt",
+         "prompt": "Antes de compactar, salve explicitamente: (1) decisões de arquitetura tomadas nesta sessão, (2) arquivos modificados e por quê, (3) próximos passos pendentes. Inclua isso no resumo de compactação."
+       }]
+     }]
+   }
+   ```
+3. ✓ Micro-check: "Essas 3 categorias cobrem o que você precisa preservar entre sessões? Podemos personalizar."
+4. Leia `~/.claude/settings.json`, faça merge, escreva o arquivo
+5. Explique: "Agora, antes de qualquer compactação, o Claude vai revisar e incluir explicitamente as decisões críticas no resumo."
+
+**Se escolher (b) — Contexto mínimo:**
+1. Explique: "Cada arquivo lido, cada resultado de ferramenta, ocupa espaço no contexto. Operações desnecessárias reduzem o quanto você pode trabalhar em uma sessão."
+2. Mostre estratégias práticas:
+   - Usar Grep em vez de ler arquivos completos quando só precisa de uma função
+   - Passar contexto preciso para subagentes (não o histórico completo)
+   - Usar `.clinerules` ou `.claude/settings.json` para limitar quais arquivos o Claude acessa automaticamente
+3. Ofereça auditar o CLAUDE.md atual para identificar instruções que forçam carregamento desnecessário de contexto
+
+**Se escolher (c) — Peak hours:**
+1. Explique o modelo de uso do Claude:
+   - Claude opera em **janelas de 5 horas** (diferente do ChatGPT que usa limite diário)
+   - Ao atingir o limite da janela, você cai para um modelo menos poderoso ou espera a janela reiniciar
+   - Limites **semanais** não mudam — só a velocidade com que você queima a janela de 5h
+
+2. Explique o impacto do peak hours:
+   ```
+   Peak hours (dias úteis):
+   5am–11am PT   →   10h–16h BRT   →   13h–19h Lisboa
+
+   Durante esse período: você consome sua janela de 5h mais rápido do que no restante do dia.
+   ~7% dos usuários Pro atingem limites que não atingiriam antes.
+   ```
+
+3. Estratégias práticas:
+   - **Jobs pesados** (análise de repositórios, geração em massa): agende para antes das 10h ou após 16h BRT
+   - **Trabalho interativo** (code review, perguntas rápidas): menos sensível, pode fazer no peak
+   - **Claude Code com subagentes paralelos**: use fora do peak — cada agente consome da mesma janela
+   - **Monitore em**: `console.anthropic.com` → Usage (tokens input/output por período)
+
+4. ✓ Micro-check: mostre a hora atual do usuário e calcule se está em peak hours agora. Sugira o melhor horário para as tarefas dele.
+
+---
+
 ## Ao Final de Qualquer Exercício
 
 Sempre pergunte:
@@ -283,7 +357,7 @@ Exercício concluído! O que quer fazer agora?
 
 1. Ver seu plano de aprendizado → /learn path
 2. Testar o que aprendeu → quiz rápido (3 perguntas)
-3. Explorar outro tópico → /learn [hooks|agents|claude-md|skills|commits]
+3. Explorar outro tópico → /learn [hooks|agents|claude-md|skills|commits|context]
 4. Terminar por aqui
 ```
 
