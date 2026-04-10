@@ -171,7 +171,15 @@ Based on the topic practiced, select 3 relevant questions:
 - Use Iniciante Q4, then ask: **"Em qual evento de hook você interceptaria um `git commit` para validar a mensagem?"** (Answer: `PreToolUse` com matcher `Bash`), then: **"Por que `type: prompt` é melhor que `type: command` para validar commits?"** (Answer: `prompt` entende contexto e pode sugerir correção; `command` apenas bloqueia ou passa)
 
 ### After context exercise (frontier)
-- Use Avançado Q5, then ask: **"Qual hook é o momento ideal para salvar decisões críticas antes de uma compactação?"** (Answer: `PreCompact` com `type: prompt`), then: **"Por que um CLAUDE.md de 500 linhas é problemático?"** (Answer: Claude pode perder instruções do meio; arquivos curtos e estruturados têm instruction following mais confiável)
+- Use Avançado Q5, then ask: **"Qual hook é o momento ideal para salvar decisões críticas antes de uma compactação?"** (Answer: `PreCompact` com `type: prompt`), then ask:
+
+**"Você precisa rodar uma análise pesada em um repositório grande usando Claude Code. São 14h BRT de uma terça-feira. O que fazer?"**
+- A) Rodar agora — a análise vai funcionar normalmente em qualquer horário
+- B) Esperar até depois das 16h BRT para evitar o peak hours e preservar mais da janela de 5 horas
+- C) Dividir em subagentes para contornar o limite
+- D) Atualizar para o plano Max — isso remove o peak hours penalty
+
+**Answer: B** — Das 10h às 16h BRT (5am–11am PT) nos dias úteis, você consome a janela de 5 horas mais rápido. Esperar até depois das 16h preserva mais da janela para tarefas intensivas. **Por que A falha:** o horário importa — ~7% dos usuários Pro atingem limites que não atingiriam fora do peak. **Por que C falha:** subagentes consomem da mesma janela, não contornam o limite. **Por que D falha:** todos os planos (Free, Pro e Max) são afetados pelo peak hours.
 
 ---
 

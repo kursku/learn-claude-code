@@ -287,14 +287,14 @@ c) Criar um skill pack — agrupe skills relacionadas em um repositório
 
 ### Frontier — Gestão de Contexto (Avançado + topic = context)
 
-> **Como funciona:** O Claude Code tem um limite de contexto por sessão. Quando esse limite se aproxima, o Claude compacta automaticamente a conversa — e pode perder decisões importantes. Dominar a gestão de contexto significa manter a qualidade do trabalho mesmo em sessões longas.
+> **Como funciona:** O Claude Code tem um limite de contexto por sessão e limites de uso em janelas de 5 horas. Quando o contexto se aproxima do limite, o Claude compacta automaticamente — e pode perder decisões importantes. Além disso, durante **peak hours** (dias úteis das 5h–11h PT / 10h–16h BRT), você queima essa janela de 5 horas mais rápido do que no restante do dia. Dominar a gestão de contexto significa manter a qualidade do trabalho mesmo em sessões longas e em qualquer horário.
 
 ```
 Você já opera em sessões longas. Hora de dominar o contexto! Escolha:
 
 a) Hook PreCompact — salva decisões críticas antes da compactação automática
 b) Estratégia de contexto mínimo — estruturar prompts para desperdiçar menos tokens
-c) Auditoria de uso de contexto — identificar o que está consumindo mais espaço
+c) Entender peak hours — quando usar Claude com mais cuidado e como monitorar seu uso
 ```
 
 **Se escolher (a) — PreCompact hook:**
@@ -323,13 +323,28 @@ c) Auditoria de uso de contexto — identificar o que está consumindo mais espa
    - Usar `.clinerules` ou `.claude/settings.json` para limitar quais arquivos o Claude acessa automaticamente
 3. Ofereça auditar o CLAUDE.md atual para identificar instruções que forçam carregamento desnecessário de contexto
 
-**Se escolher (c) — Auditoria de contexto:**
-1. Peça ao usuário: "Descreva o que você está fazendo quando percebe que o Claude começa a se confundir ou perder instruções."
-2. Analise padrões comuns de consumo excessivo:
-   - Leitura de arquivos grandes inteiros quando só uma seção era necessária
-   - Múltiplas rodadas de feedback sem compactação manual
-   - Ausência de hook PreCompact para preservar decisões
-3. Sugira melhorias concretas baseadas no padrão identificado
+**Se escolher (c) — Peak hours:**
+1. Explique o modelo de uso do Claude:
+   - Claude opera em **janelas de 5 horas** (diferente do ChatGPT que usa limite diário)
+   - Ao atingir o limite da janela, você cai para um modelo menos poderoso ou espera a janela reiniciar
+   - Limites **semanais** não mudam — só a velocidade com que você queima a janela de 5h
+
+2. Explique o impacto do peak hours:
+   ```
+   Peak hours (dias úteis):
+   5am–11am PT   →   10h–16h BRT   →   13h–19h Lisboa
+
+   Durante esse período: você consome sua janela de 5h mais rápido do que no restante do dia.
+   ~7% dos usuários Pro atingem limites que não atingiriam antes.
+   ```
+
+3. Estratégias práticas:
+   - **Jobs pesados** (análise de repositórios, geração em massa): agende para antes das 10h ou após 16h BRT
+   - **Trabalho interativo** (code review, perguntas rápidas): menos sensível, pode fazer no peak
+   - **Claude Code com subagentes paralelos**: use fora do peak — cada agente consome da mesma janela
+   - **Monitore em**: `console.anthropic.com` → Usage (tokens input/output por período)
+
+4. ✓ Micro-check: mostre a hora atual do usuário e calcule se está em peak hours agora. Sugira o melhor horário para as tarefas dele.
 
 ---
 
